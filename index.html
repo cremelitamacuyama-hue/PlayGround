@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0d10" />
+    <link rel="icon" href="data:," />
+    <title>CHECKPOINT BERLIN 1979</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game"></canvas>
+
+      <div id="boot" class="screen">
+        <div class="boot-inner">
+          <div class="boot-kicker">SECTOR CHARLIE · 14 ENE 1979</div>
+          <h1 class="boot-title">BERLIN<span>1979</span></h1>
+          <div class="boot-rule"></div>
+          <p class="boot-copy">CARGANDO EL FRENTE CENTRAL</p>
+          <div class="boot-bar"><i></i></div>
+        </div>
+      </div>
+
+      <section id="menu" class="screen hidden">
+        <header class="menu-top">
+          <div class="brand">
+            <span class="brand-mark">CB</span>
+            <div>
+              <strong>CHECKPOINT BERLIN</strong>
+              <small>CRISIS EN EL SECTOR CHARLIE · 1979</small>
+            </div>
+          </div>
+          <div class="menu-status"><i></i> ENLACE TÁCTICO ACTIVO <b>06:40</b></div>
+        </header>
+
+        <div class="menu-title">
+          <div class="eyebrow">ESCENARIO HISTÓRICO-FICTICIO / BERLÍN DIVIDIDA</div>
+          <h2>EL MURO<br><em>NO ES UNA FRONTERA.</em></h2>
+          <p>Un convoy soviético ha cruzado el puesto de control. La OTAN responde. Elige tu bando y sobrevive a cinco oleadas en la avenida que separa dos mundos.</p>
+        </div>
+
+        <div class="faction-picker">
+          <button class="faction-card nato" data-side="NATO" aria-label="Jugar como la OTAN">
+            <span class="card-scan"></span>
+            <div class="card-top"><span class="alliance-emblem nato-emblem">✦</span><span class="card-tag">BANDO OCCIDENTAL</span></div>
+            <h3>OTAN</h3>
+            <p class="unit">BERLIN BRIGADE · US ARMY</p>
+            <div class="loadout">
+              <span><b>M16A1</b> · 5.56 mm</span>
+              <span><b>M1911A1</b> · .45 ACP</span>
+              <span>M65 · casco M1 · ALICE</span>
+            </div>
+            <div class="card-stats">
+              <span>PRECISIÓN <i style="--v:82%"></i></span>
+              <span>CADENCIA <i style="--v:72%"></i></span>
+                <span>MOVILIDAD <i style="--v:76%"></i></span>
+            </div>
+            <span class="deploy">DESPLEGAR COMO OTAN <b>→</b></span>
+          </button>
+
+          <div class="versus">
+            <span>VS</span>
+            <small>CORREDOR<br>DE FRONTERA</small>
+          </div>
+
+          <button class="faction-card wp" data-side="WP" aria-label="Jugar como el Pacto de Varsovia">
+            <span class="card-scan"></span>
+            <div class="card-top"><span class="alliance-emblem wp-emblem">★</span><span class="card-tag">BANDO ORIENTAL</span></div>
+            <h3>PACTO DE<br>VARSOVIA</h3>
+            <p class="unit">6.ª BRIGADA DE FUSILES MOTORIZADOS</p>
+            <div class="loadout">
+              <span><b>AKM</b> · 7.62 × 39 mm</span>
+              <span><b>PISTOLA PM</b> · 9 × 18 mm</span>
+              <span>M69 · casco SSh-68 · correaje</span>
+            </div>
+            <div class="card-stats">
+              <span>PRECISIÓN <i style="--v:69%"></i></span>
+              <span>CADENCIA <i style="--v:84%"></i></span>
+              <span>MOVILIDAD <i style="--v:70%"></i></span>
+            </div>
+            <span class="deploy">DESPLEGAR COMO PACTO <b>→</b></span>
+          </button>
+        </div>
+
+        <footer class="menu-foot">
+          <div class="controls-line"><span>WASD</span> MOVER <span>RATÓN</span> APUNTAR <span>CLIC</span> DISPARAR <span>R</span> RECARGAR <span>G</span> GRANADA</div>
+          <div class="build-line">SIMULACIÓN DE COMBATE · PSX-1 · <b>V. 1.0</b></div>
+        </footer>
+      </section>
+
+      <section id="briefing" class="screen hidden">
+        <div class="briefing-card">
+          <div class="briefing-side" id="brief-side">OTAN</div>
+          <div class="briefing-stamp">CLASIFICADO</div>
+          <p class="eyebrow">ORDEN DE OPERACIONES // SECTOR CHARLIE</p>
+          <h2 id="brief-title">DEFIENDE EL PUESTO</h2>
+          <p id="brief-copy">Fuerzas del Pacto de Varsovia avanzan por la avenida. Mantén la posición y elimina cinco oleadas enemigas.</p>
+          <div class="briefing-meta" id="brief-meta">
+            <div><small>HORA</small><b>06:40</b></div>
+            <div><small>CLIMA</small><b>NIEBLA / -2°C</b></div>
+            <div><small>AMENAZA</small><b>ALTA</b></div>
+          </div>
+          <button id="brief-go" class="primary-btn">ENTRAR EN COMBATE <b>→</b></button>
+          <small class="brief-hint">Haz clic para capturar el ratón · Esc para pausar</small>
+        </div>
+      </section>
+
+      <section id="hud" class="hidden">
+        <div class="hud-top">
+          <div class="hud-unit">
+            <span class="hud-badge" id="hud-badge">✦</span>
+            <div><b id="hud-faction">OTAN</b><small id="hud-unit-name">BERLIN BRIGADE</small></div>
+          </div>
+          <div class="objective">
+            <small id="objective-label">OBJETIVO</small>
+            <b id="objective-text">ELIMINA LA OLEADA 1</b>
+            <span id="objective-sub">HOSTILES RESTANTES <i id="enemy-count">0</i></span>
+          </div>
+          <div class="hud-time"><small>HORA LOCAL</small><b id="hud-clock">06:40</b><span><i></i> COMBATE ACTIVO</span></div>
+        </div>
+
+        <div class="hud-left">
+          <div class="vitals">
+            <div class="vital-label"><span>SALUD</span><b id="health-num">100</b></div>
+            <div class="vital-track"><i id="health-bar" style="width:100%"></i></div>
+            <div class="vital-label armor-label"><span>CHALECO</span><b id="armor-num">50</b></div>
+            <div class="vital-track armor-track"><i id="armor-bar" style="width:50%"></i></div>
+          </div>
+          <div class="wave-box">
+            <span>OLEADA</span><b id="wave-num">1</b><small>/ 5</small>
+          </div>
+        </div>
+
+        <div class="crosshair" id="crosshair">
+          <i class="ch-t"></i><i class="ch-b"></i><i class="ch-l"></i><i class="ch-r"></i>
+          <span class="hitmark"></span>
+        </div>
+
+        <div class="hud-right">
+          <div class="weapon-name"><small>ARMA PRIMARIA</small><b id="weapon-name">M16A1</b><span id="fire-mode">AUTO · 5.56</span></div>
+          <div class="ammo"><b id="ammo-mag">20</b><span>/</span><i id="ammo-reserve">100</i></div>
+          <div class="ammo-type"><span id="ammo-label">CARGADOR STANAG</span><i id="reload-hint">R · RECARGAR</i></div>
+          <div class="grenades"><span>G · GRANADA</span><b id="grenade-count">2</b></div>
+        </div>
+
+        <div class="feed" id="feed"></div>
+        <div class="damage-flash" id="damage-flash"></div>
+        <div class="wave-banner" id="wave-banner"><small>OLEADA ENEMIGA</small><b id="wave-banner-num">1</b><span id="wave-banner-sub">MANTÉN LA POSICIÓN</span></div>
+        <div class="center-toast" id="center-toast"></div>
+
+        <div class="touch-ui" id="touch-ui">
+          <div class="touch-stick" id="touch-stick"><i></i></div>
+          <div class="touch-look" id="touch-look"></div>
+          <button class="touch-btn fire" id="btn-fire">FUEGO</button>
+          <button class="touch-btn reload" id="btn-reload">R</button>
+          <button class="touch-btn grenade" id="btn-grenade">G</button>
+          <button class="touch-btn switch" id="btn-switch">↻</button>
+        </div>
+      </section>
+
+      <section id="pause" class="screen hidden">
+        <div class="pause-card">
+          <p class="eyebrow">ENLACE EN ESPERA</p>
+          <h2>PAUSA</h2>
+          <p>La avenida sigue ahí. El alto el fuego, no.</p>
+          <div class="pause-controls">
+            <div><span>W A S D</span> Movimiento</div>
+            <div><span>RATÓN</span> Apuntar</div>
+            <div><span>CLIC IZQ.</span> Disparar</div>
+            <div><span>CLIC DER.</span> Puntería</div>
+            <div><span>R</span> Recargar</div>
+            <div><span>G</span> Granada</div>
+            <div><span>1 / 2</span> Cambiar arma</div>
+            <div><span>C</span> Agacharse</div>
+          </div>
+          <button id="resume-btn" class="primary-btn">REANUDAR COMBATE <b>→</b></button>
+          <button id="quit-btn" class="ghost-btn">ABANDONAR MISIÓN</button>
+        </div>
+      </section>
+
+      <section id="result" class="screen hidden">
+        <div class="result-card">
+          <p class="eyebrow" id="result-kicker">INFORME DE COMBATE</p>
+          <h2 id="result-title">SECTOR<br>ASEGURADO</h2>
+          <p id="result-copy">Has resistido. Berlín sigue dividida, pero respira.</p>
+          <div class="result-stats">
+            <div><small>BAJAS</small><b id="stat-kills">0</b></div>
+            <div><small>PRECISIÓN</small><b id="stat-acc">0%</b></div>
+            <div><small>PUNTUACIÓN</small><b id="stat-score">0</b></div>
+            <div><small>TIEMPO</small><b id="stat-time">00:00</b></div>
+          </div>
+          <button id="again-btn" class="primary-btn">VOLVER A DESPLEGAR <b>→</b></button>
+          <button id="menu-btn" class="ghost-btn">CAMBIAR DE BANDO</button>
+        </div>
+      </section>
+
+      <div id="rotate-hint" class="rotate-hint">GIRA EL DISPOSITIVO PARA UNA EXPERIENCIA COMPLETA</div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
